@@ -50,7 +50,7 @@ def accumulate(data, filter_=None):
 
 
 def main():
-    confirmed, deaths, recovered = download_data()
+    confirmed, recovered, deaths = download_data()
     filter_italy = lambda _k, _d: _d[_k['Country/Region']] == 'Italy'
     filter_austria = lambda _k, _d: _d[_k['Country/Region']] == 'Austria'
     data = {
