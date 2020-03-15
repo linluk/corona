@@ -77,22 +77,19 @@ def main():
     }
 
     fig = plt.figure()
-    all_ = fig.add_subplot(2, 1, 1)
-    all_.set_title('All')
-    pos = 4
+    pos = 1
     for country in data:
-        ax = fig.add_subplot(2, 3, pos)
+        ax = fig.add_subplot(1, 3, pos)
         pos += 1
         for category in data[country]:
             try:
                 gr = data[country][category][-1] / data[country][category][-2]
             except:
                 gr = 0
-            all_.plot(data[country][category], label=f'{country} - {category}')
             ax.plot(data[country][category], color=colors[category], label=f'{category}' + (f', Growth Rate: {gr:.2f}' if category == 'Confirmed' else '') )
         ax.bar([1],[0], label='Growth Rate', alpha=0.2)
         ax.legend()
-        rates = []
+        rates = [0]
         X = data[country]['Confirmed']
         ax = ax.twinx()
         ax.set_ylim(0, 8)
@@ -102,9 +99,8 @@ def main():
             except:
                 rate = 0
             rates.append(rate)
-        ax.bar(range(len(X) - 1), rates, label='Growth Rate', alpha=0.2)
+        ax.bar(range(len(X)), rates, label='Growth Rate', alpha=0.2)
         ax.set_title(country)
-    all_.legend()
     plt.show()
 
 
