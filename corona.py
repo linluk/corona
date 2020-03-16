@@ -3,6 +3,7 @@
 
 import sys
 import os
+import time
 import csv
 import urllib.request
 import re
@@ -101,6 +102,9 @@ def main():
             rates.append(rate)
         ax.bar(range(len(X)), rates, label='Growth Rate', alpha=0.2)
         ax.set_title(country)
+    fig.suptitle(time.strftime('%Y-%m-%d %H:%M'))
+    # WTF! I absolutely dont understand tight_layout()
+    plt.tight_layout(w_pad=-6, rect=[-0.15, 0, 1, 1])
     plt.show()
 
 
