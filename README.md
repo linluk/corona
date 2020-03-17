@@ -9,4 +9,4 @@ Relys on this Repository: https://github.com/CSSEGISandData/COVID-19
 Screenshot
 ----------
 
-![Screenshot](2020-03-16.png)
+![Screenshot](screenshot.png)
