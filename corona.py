@@ -49,11 +49,25 @@ def accumulate(data, filter_=None):
                         idx += 1
     return [output[i] for i in output]
 
+def growth_rate(series):
+    if len(series) < 3:
+        return [.0 for _ in range(len(series))]
+    output = [.0, .0]
+    for i in range(2, len(series)):
+        d1 = series[i - 1] - series[i - 2]
+        d2 = series[i] - series[i - 1]
+        if d1 <= 0:
+            output.append(.0)
+        else:
+            output.append(d2 / d1)
+    return output
+
 
 def main():
     confirmed, recovered, deaths = download_data()
     filter_italy = lambda _k, _d: _d[_k['Country/Region']] == 'Italy'
     filter_austria = lambda _k, _d: _d[_k['Country/Region']] == 'Austria'
+    filter_china = lambda _k, _d: _d[_k['Country/Region']] == 'China'
     data = {
         'Austria': {
             'Confirmed': accumulate(confirmed, filter_austria),
@@ -83,24 +97,15 @@ def main():
         ax = fig.add_subplot(1, 3, pos)
         pos += 1
         for category in data[country]:
-            try:
-                gr = data[country][category][-1] / data[country][category][-2]
-            except:
-                gr = 0
-            ax.plot(data[country][category], color=colors[category], label=f'{category}' + (f', Growth Rate: {gr:.2f}' if category == 'Confirmed' else '') )
-        ax.bar([1],[0], label='Growth Rate', alpha=0.2)
+            # growth rate 4 day average
+            gr = sum(growth_rate(data[country][category])[-4:]) / 4
+            ax.plot(data[country][category], color=colors[category], label=f'{category}, Growth Rate: {gr:.2f}')
+        ax.bar([1],[0], label='Growth Rate', alpha=0.2) # a dummy so that it appears in the same legend.
         ax.legend()
-        rates = [0]
-        X = data[country]['Confirmed']
+        gr = growth_rate(data[country]['Confirmed'])
         ax = ax.twinx()
         ax.set_ylim(0, 8)
-        for i in range(len(X) - 1):
-            try:
-                rate = (X[i + 1] / X[i])
-            except:
-                rate = 0
-            rates.append(rate)
-        ax.bar(range(len(X)), rates, label='Growth Rate', alpha=0.2)
+        ax.bar(range(len(gr)), gr, label='Growth Rate', alpha=0.2)
         ax.set_title(country)
     fig.suptitle(time.strftime('%Y-%m-%d %H:%M'))
     # WTF! I absolutely dont understand tight_layout()
