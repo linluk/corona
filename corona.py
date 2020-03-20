@@ -97,7 +97,7 @@ def main():
     plt.rcParams['figure.titlesize'] = 'small'
 
     timestamp = time.strftime('%Y-%m-%d %H:%M')
-    filename = lambda fn: os.path.join(os.path.abspath(sys.path[0]), 'export', fn)
+    filename = lambda fn: os.path.join(os.path.abspath(sys.path[0]), 'export', fn.lower())
 
     # country details
     for country in data:
