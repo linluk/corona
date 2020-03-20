@@ -1,6 +1,6 @@
 
-A Simple Dashboard for COVID-19 Data
-====================================
+COVID-19 Charts based on the John Hopkins Data Set
+==================================================
 
 Displays some Data from the John Hopkins Data set.
 
@@ -16,7 +16,7 @@ Growth Rate is Calculated like this
 
 ![Growth Rate Formula](static/growth-rate.png)
 
-Groth Rate in the Legend is the Average Groth Rate of the last 4 Days.
+Growth Rate displayed in the Legend is the Average Growth Rate of the last 4 Days.
 
 ![Austria Details](export/austria.png)
 ![Italy Details](export/italy.png)
@@ -31,8 +31,6 @@ Comparison of Countries/Regions with zero padded Data.
 
 Polynomial Fit
 --------------
-
-Polynomial fitted Data.
 
 ![Fitted](export/fitted.png)
 
