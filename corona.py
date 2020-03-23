@@ -134,10 +134,14 @@ def main():
     ffit = poly.Polynomial(coefs)
     plt.figure()
     plt.plot(actual, label='Data', color='b', linestyle='', marker='o')
-    plt.plot([ffit(x) for x in range(int(len(actual) * 1.3))], label='Fitted', color='g')
+    y_ = sum(y for y in actual) / len(actual)
+    SS_tot = sum((actual[i] -y_) ** 2 for i in range(len(actual)))
+    SS_res = sum((actual[i] - ffit(i)) ** 2 for i in range(len(actual)))
+    r2 = 1 - SS_res / SS_tot
+    plt.plot([ffit(x) for x in range(int(len(actual) * 1.3))], label=f'Fitted  R^2: {r2:.3}', color='g')
     plt.legend()
     sfunc = 'f(x) = ' + ' + '.join(f'{coefs[i]:.3f} * x ^ {i + 1}' for i in range(len(coefs)))
-    plt.title(f'Polynomial Fitted Curve\nAustria\nCoefficients: {coefs}\n{sfunc}\n{timestamp}')
+    plt.title(f'Polynomial Fitted Curve\nAustria\n{sfunc}\n{timestamp}')
     plt.tight_layout()
     plt.savefig(filename('fitted.png'))
 
