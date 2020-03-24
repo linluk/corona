@@ -16,12 +16,11 @@ import numpy.polynomial.polynomial as poly
 
 def download_data():
     baseurl='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/'
-    def _download(_url, _fn):
+    def _download(_url):
         return csv.reader(urllib.request.urlopen(_url).read().decode('utf-8').split('\n'), delimiter=',')
-    confirmed = [x for x in _download(baseurl + 'time_series_19-covid-Confirmed.csv', os.path.join(sys.path[0], 'confirmed.csv'))]
-    deaths = [x for x in _download(baseurl + 'time_series_19-covid-Deaths.csv', os.path.join(sys.path[0], 'deaths.csv'))]
-    recovered = [x for x in _download(baseurl + 'time_series_19-covid-Recovered.csv', os.path.join(sys.path[0], 'recovered.csv'))]
-    return confirmed, recovered, deaths
+    confirmed = [x for x in _download(baseurl + 'time_series_covid19_confirmed_global.csv')]
+    deaths = [x for x in _download(baseurl + 'time_series_covid19_deaths_global.csv')]
+    return confirmed, deaths
 
 
 def accumulate(data, filter_=None):
@@ -71,7 +70,7 @@ def r_square(func, data):
 
 
 def main():
-    confirmed, recovered, deaths = download_data()
+    confirmed, deaths = download_data()
     filter_italy = lambda _k, _d: _d[_k['Country/Region']] == 'Italy'
     filter_austria = lambda _k, _d: _d[_k['Country/Region']] == 'Austria'
     filter_china = lambda _k, _d: _d[_k['Country/Region']] == 'China'
@@ -80,23 +79,19 @@ def main():
         'Austria': {
             'Confirmed': accumulate(confirmed, filter_austria),
             'Deaths': accumulate(deaths, filter_austria),
-            'Recovered': accumulate(recovered, filter_austria)
             },
         'Italy': {
             'Confirmed': accumulate(confirmed, filter_italy),
             'Deaths': accumulate(deaths, filter_italy),
-            'Recovered': accumulate(recovered, filter_italy)
             },
         'World': {
             'Confirmed': accumulate(confirmed),
             'Deaths': accumulate(deaths),
-            'Recovered': accumulate(recovered)
             }
         }
     colors = {
         'Confirmed': 'b',
         'Deaths': 'r',
-        'Recovered': 'g'
     }
 
     plt.rcParams['figure.figsize'] = (12, 8)
