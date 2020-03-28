@@ -18,8 +18,8 @@ def download_data():
     baseurl='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/'
     def _download(_url):
         return csv.reader(urllib.request.urlopen(_url).read().decode('utf-8').split('\n'), delimiter=',')
-    confirmed = [x for x in _download(baseurl + 'time_series_covid19_confirmed_global.csv')]
-    deaths = [x for x in _download(baseurl + 'time_series_covid19_deaths_global.csv')]
+    confirmed = [x for x in _download(baseurl + 'time_series_covid19_confirmed_global.csv') if x]
+    deaths = [x for x in _download(baseurl + 'time_series_covid19_deaths_global.csv') if x]
     return confirmed, deaths
 
 
