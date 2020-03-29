@@ -136,12 +136,20 @@ def main():
     plt.figure()
     plt.plot(actual, label='Data', color='b', linestyle='', marker='o')
     r2 = r_square(ffit, actual)
-    plt.plot([ffit(x) for x in range(int(len(actual) * 1.3))], label=f'Fitted  R^2: {r2:.3}', color='g')
+    plt.plot([ffit(x) for x in range(int(len(actual) + 10))], label=f'Fitted  R^2: {r2:.3}', color='g')
     plt.legend()
     sfunc = 'f(x) = ' + ' + '.join(f'{coefs[i]:.3f} * x ^ {i + 1}' for i in range(len(coefs)))
     plt.title(f'Polynomial Fitted Curve\nAustria\n{sfunc}\n{timestamp}')
     plt.tight_layout()
     plt.savefig(filename('fitted.png'))
+
+    plt.figure()
+    plt.plot(actual, label='Data', color='b')
+    plt.legend()
+    plt.title(f'Logarithmic\nAustria\n{timestamp}')
+    plt.yscale('log')
+    plt.tight_layout()
+    plt.savefig(filename('logarithmic.png'))
 
     plt.show()
 

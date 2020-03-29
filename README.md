@@ -34,4 +34,9 @@ Polynomial Fit
 
 ![Fitted](export/fitted.png)
 
+Logarithmic
+-----------
+
+![Logarithmic](export/logarithmic.png)
+
 
